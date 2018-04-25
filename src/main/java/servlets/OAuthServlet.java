@@ -46,6 +46,7 @@ import java.net.URLEncoder;
  * A Servlet for handeling OAuth flow.
  * This OAuth Servlet  is only provided as an example and is provided as-is
  */
+//@WebServlet("/oauthwebserverflow")
 public class OAuthServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -59,13 +60,19 @@ public class OAuthServlet extends HttpServlet {
     private String tokenUrl     = null;
 
     public void init() throws ServletException {
-
+        System.out.println("STONE: START on servlet init()");
         String environment;
 
-        clientId = this.getInitParameter("clientId");
+        /*clientId = this.getInitParameter("clientId");
         clientSecret = this.getInitParameter("clientSecret");
         redirectUri = this.getInitParameter("redirectUri");    // https://canvas.herokuapp.com/oauth/_callback
-        environment = this.getInitParameter("environment");    // https://login.salesforce.com
+        environment = this.getInitParameter("environment");    // https://login.salesforce.com */
+
+        clientId = "3MVG9A2kN3Bn17hudSDZs_Sd4e_URGVd3.aT9D9yvsykf9KR5683gzcLmzKXxOSyk7rVsewCN4DSdLbvBELi3";
+        clientSecret = "4415624878435633409";
+        redirectUri = "https://wf-card-servicing-poc.herokuapp.com/oauth_callback";    // https://canvas.herokuapp.com/oauth/_callback
+        environment = "https://login.salesforce.com";    // https://login.salesforce.com
+
 
         try {
             authUrl = environment
@@ -76,6 +83,7 @@ public class OAuthServlet extends HttpServlet {
             // Nots: &scope=email,read_chatter,... would be added here for oauth scope
 
         } catch (UnsupportedEncodingException e) {
+            System.out.println("STONE: Error on servlet init()");
             throw new ServletException(e);
         }
 
@@ -88,9 +96,15 @@ public class OAuthServlet extends HttpServlet {
 
         String accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 
+        System.out.println("ACCESS_TOKEN: "+accessToken);
+
         if (accessToken == null) {
 
             String instanceUrl = null;
+
+
+            System.out.println("RequestURI: "+request.getRequestURI());
+            
 
             if (request.getRequestURI().endsWith("oauth")) {
                 // we need to send the user to authorize
@@ -148,6 +162,7 @@ public class OAuthServlet extends HttpServlet {
             request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
         }
 
-        response.sendRedirect(request.getContextPath() + "/index.html");
+        //response.sendRedirect(request.getContextPath() + "/index.html");
+        response.sendRedirect(request.getContextPath() + "/sdk/callback.html");
     }
 }

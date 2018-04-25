@@ -8,4 +8,17 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+
+
+    <servlet>
+		<servlet-name>OAuth.do</servlet-name>
+		<servlet-class>servlets.OAuthServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>OAuth.do</servlet-name>
+		<url-pattern>/oauth_callback</url-pattern>
+	</servlet-mapping>
+
+
 </web-app>
